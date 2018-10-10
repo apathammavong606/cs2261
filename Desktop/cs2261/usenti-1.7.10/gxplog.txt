@@ -1,0 +1,18 @@
+STATUS: Validatating gr.
+WARNING:   No explicit src path.
+STATUS: Validation succeeded.
+STATUS: Started run at: 2018-10-04, 16:56:41
+STATUS: Validatating gr.
+STATUS: Validation succeeded.
+STATUS: Preparing data.
+STATUS: Work-DIB creation.
+STATUS: Work-DIB creation complete: 240x160@8.
+STATUS: Tile preparation.
+STATUS: Tile preparation complete.
+STATUS: Graphics preparation.
+STATUS: Graphics preparation complete.
+STATUS: Palette preparation.
+STATUS: Palette preparation complete.
+STATUS: Data preparation complete.
+STATUS: Export to C: testing into Z:\Users\ariannapath\Desktop\testing.c .
+STATUS: Run completed :).

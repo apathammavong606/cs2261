@@ -1,0 +1,3 @@
+Catch the apples!
+
+You will be brought to a white start screen. Press start to begin the game and use the left and right arrow keys to move the basket across the screen to catch the apples. When you collect all the apples, you will be brought to a green win screen. In the middle of the game, you can press start and you will be brought to a gray lose screen. Press start again to be brought to the white start screen.

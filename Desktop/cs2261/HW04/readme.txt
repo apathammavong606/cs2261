@@ -1,0 +1,3 @@
+Simple Asteroids
+
+Press start to begin the game. In the game mode you will use the up, down, left, and right arrow keys to move the player around the keys. Use the A button (x key) to shoot bullets at the gray asteroids. Every time an asteroid is hit, the number of asteroids remaining will decrease. If all the asteroids are hit you win the game! If you get hit by an asteroid, you die and lose the game. If you want to pause the game, press the start button. If you have run out of bullets, press B to bring you to the lose screen and press start to restart the game.
