@@ -143,6 +143,7 @@ void drawApple(APPLE* b) {
 		drawRect(b->oldRow, b->oldCol, b->height, b->width, YELLOW);
 		drawRect(b->row, b->col, b->height, b->width, b->color);
 	} else if (!b->erased) {
+
 		drawRect(b->oldRow, b->oldCol, b->height, b->width, YELLOW);
 		b->erased = 1;
 	}

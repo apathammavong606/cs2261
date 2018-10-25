@@ -3,6 +3,7 @@
 #include "myLib.h"
 #include "text.h"
 #include "game.h"
+#include "Joshy.h"
 // TODO 3.5: Include Bill.h
 
 
@@ -44,7 +45,7 @@ int main() {
         // Update button variables
         oldButtons = buttons;
         buttons = BUTTONS;
-                
+
         // State Machine
         switch(state) {
 
@@ -64,7 +65,7 @@ int main() {
                 lose();
                 break;
         }
-               
+
     }
 }
 
@@ -81,12 +82,14 @@ void initialize() {
 void goToStart() {
 
     //TODO 3.6: Call DMANow to load in BillPal
+    DMANow(3, JoshyPal, PALETTE, 256);
 
     // UNCOMMENT 3.0
-    //drawFullscreenImage4(BillBitmap);
+    drawFullscreenImage4(JoshyBitmap);
 
     //TODO 2.1: Wait for vertical blank and flip the page (you don't need to reload the palette)
-
+    waitForVBlank();
+    flipPage();
 
 
     state = START;
@@ -134,7 +137,7 @@ void game() {
     flipPage();
 
     // State transitions
-    if (BUTTON_PRESSED(BUTTON_START)) 
+    if (BUTTON_PRESSED(BUTTON_START))
         goToPause();
     else if (ballsRemaining == 0)
         goToWin();
@@ -149,6 +152,8 @@ void goToPause() {
     drawString4(80-3, 120-15, "Pause", BLACKID);
 
     //TODO 2.2: Wait for vertical blank and flip the page
+    waitForVBlank();
+    flipPage();
 
 
 
@@ -157,7 +162,7 @@ void goToPause() {
 
 // Runs every frame of the pause state
 void pause() {
-    
+
     // Lock the framerate to 60 fps
     waitForVBlank();
 
@@ -175,7 +180,8 @@ void goToWin() {
     drawString4(80-3, 120-9, "Win", BLACKID);
 
     //TODO 2.3: Wait for vertical blank and flip the page
-
+    waitForVBlank();
+    flipPage();
 
 
     state = WIN;
@@ -183,7 +189,7 @@ void goToWin() {
 
 // Runs every frame of the win state
 void win() {
-    
+
     // Lock the framerate to 60 fps
     waitForVBlank();
 
@@ -199,19 +205,20 @@ void goToLose() {
     drawString4(80-3, 120-12, "Lose", BLACKID);
 
     //TODO 2.4: Wait for vertical blank and flip the page
+    waitForVBlank();
+    flipPage();
 
-    
 
     state = LOSE;
 }
 
 // Runs every frame of the lose state
 void lose() {
-     
+
     // Lock the framerate to 60 fps
     waitForVBlank();
 
     // State transitions
-    if (BUTTON_PRESSED(BUTTON_START)) 
+    if (BUTTON_PRESSED(BUTTON_START))
         goToStart();
 }

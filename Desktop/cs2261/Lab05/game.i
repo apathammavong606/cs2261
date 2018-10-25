@@ -912,6 +912,13 @@ void initBalls();
 void updateBall(BALL *);
 void drawBall(BALL *);
 # 4 "game.c" 2
+# 1 "pumpkin.h" 1
+# 21 "pumpkin.h"
+extern const unsigned short pumpkinBitmap[72];
+
+
+extern const unsigned short pumpkinPal[256];
+# 5 "game.c" 2
 
 
 
@@ -935,6 +942,7 @@ void initGame() {
     unsigned short colors[6] = {0, ((0) | (0)<<5 | (31)<<10), ((0) | (31)<<5 | (0)<<10), ((31) | (0)<<5 | (0)<<10), ((31) | (31)<<5 | (31)<<10), ((15) | (15)<<5 | (15)<<10)};
 
 
+    DMANow(3, pumpkinPal, ((unsigned short *)0x5000000), 256);
 
 
 
@@ -1141,5 +1149,12 @@ void updateBall(BALL* b) {
 
 
 void drawBall(BALL* b) {
-# 241 "game.c"
+
+
+ if(b->active) {
+  if (b->isPumpkin)
+   drawImage4(b->row, b->col, b->height, b->width, pumpkinBitmap);
+  else
+   drawRect4(b->row, b->col, b->height, b->width, BLUEID);
+ }
 }

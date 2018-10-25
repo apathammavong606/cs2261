@@ -1,5 +1,5 @@
 PRODUCT_NAME       = Project
-SOURCES            = main.c myLib.c game.c text.c font.c
+SOURCES            = main.c myLib.c game.c text.c font.c Joshy.c pumpkin.c
 CCPATH             = /usr/bin
 DKPATH             = ~/Desktop/cs2261/Lab00_OSX/devkitARM/bin
 VBASIM             = open ~/Desktop/cs2261/Lab00_OSX/visualboyadvance-m.app

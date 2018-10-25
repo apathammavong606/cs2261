@@ -10,14 +10,7 @@
 typedef unsigned short u16;
 # 27 "myLib.h"
 extern unsigned short *videoBuffer;
-# 47 "myLib.h"
-void setPixel3(int row, int col, unsigned short color);
-void drawRect3(int row, int col, int height, int width, volatile unsigned short color);
-void fillScreen3(volatile unsigned short color);
-void drawImage3(int row, int col, int height, int width, const unsigned short *image);
-void drawFullscreenImage3(const unsigned short *image);
-
-
+# 54 "myLib.h"
 void setPixel4(int row, int col, unsigned char colorIndex);
 void drawRect4(int row, int col, int height, int width, volatile unsigned char colorIndex);
 void fillScreen4(volatile unsigned char colorIndex);
@@ -49,8 +42,8 @@ int collision(int rowA, int colA, int heightA, int widthA, int rowB, int colB, i
 # 2 "text.c" 2
 # 1 "text.h" 1
 
-void drawChar3(int row, int col, char ch, unsigned short color);
-void drawString3(int row, int col, char *str, unsigned short color);
+
+
 
 
 void drawChar4(int row, int col, char ch, unsigned char colorIndex);
@@ -60,20 +53,7 @@ void drawString4(int row, int col, char *str, unsigned char colorIndex);
 
 extern const unsigned char fontdata_6x8[12288];
 # 4 "text.c" 2
-
-
-void drawChar3(int row, int col, char ch, unsigned short color) {
-
-    for (int r = 0; r < 8; r++) {
-        for (int c = 0; c < 6; c++) {
-            if (fontdata_6x8[48*ch + ((r)*(6)+(c))]) {
-                setPixel3(row+r, col+c, color);
-            }
-        }
-    }
-}
-
-
+# 18 "text.c"
 void drawChar4(int row, int col, char ch, unsigned char colorIndex) {
 
     for (int r = 0; r < 8; r++) {
@@ -84,22 +64,7 @@ void drawChar4(int row, int col, char ch, unsigned char colorIndex) {
         }
     }
 }
-
-
-void drawString3(int row, int col, char *str, unsigned short color) {
-
-
-    while(*str != '\0') {
-
-        drawChar3(row, col, *str, color);
-        col += 6;
-
-
-        str++;
-    }
-}
-
-
+# 44 "text.c"
 void drawString4(int row, int col, char *str, unsigned char colorIndex) {
 
 

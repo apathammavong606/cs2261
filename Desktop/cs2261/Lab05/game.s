@@ -220,62 +220,6 @@ drawPlayer:
 	.word	drawRect4
 	.size	drawPlayer, .-drawPlayer
 	.align	2
-	.global	drawGame
-	.syntax unified
-	.arm
-	.fpu softvfp
-	.type	drawGame, %function
-drawGame:
-	@ Function supports interworking.
-	@ args = 0, pretend = 0, frame = 0
-	@ frame_needed = 0, uses_anonymous_args = 0
-	push	{r4, r5, r6, lr}
-	mov	r0, #250
-	sub	sp, sp, #8
-	ldr	r3, .L44
-	mov	lr, pc
-	bx	r3
-	bl	drawPlayer
-	mov	r2, #253
-	mov	r3, #240
-	str	r2, [sp]
-	mov	r1, #0
-	mov	r2, #3
-	mov	r0, #120
-	ldr	r6, .L44+4
-	mov	lr, pc
-	bx	r6
-	ldr	r4, .L44+8
-	add	r5, r4, #160
-.L37:
-	ldr	r3, [r4, #28]
-	cmp	r3, #0
-	bne	.L43
-.L36:
-	add	r4, r4, #32
-	cmp	r4, r5
-	bne	.L37
-	add	sp, sp, #8
-	@ sp needed
-	pop	{r4, r5, r6, lr}
-	bx	lr
-.L43:
-	ldrb	ip, [r4, #24]	@ zero_extendqisi2
-	add	r2, r4, #16
-	ldm	r2, {r2, r3}
-	ldm	r4, {r0, r1}
-	str	ip, [sp]
-	mov	lr, pc
-	bx	r6
-	b	.L36
-.L45:
-	.align	2
-.L44:
-	.word	fillScreen4
-	.word	drawRect4
-	.word	bullets
-	.size	drawGame, .-drawGame
-	.align	2
 	.global	initBullets
 	.syntax unified
 	.arm
@@ -289,8 +233,8 @@ initBullets:
 	mov	r2, #0
 	mvn	r0, #1
 	mov	r1, r2
-	ldr	r3, .L50
-.L47:
+	ldr	r3, .L39
+.L36:
 	add	r2, r2, #1
 	rsb	ip, r2, #0
 	cmp	r2, #5
@@ -303,11 +247,11 @@ initBullets:
 	str	r1, [r3, #28]
 	str	ip, [r3]
 	add	r3, r3, #32
-	bne	.L47
+	bne	.L36
 	bx	lr
-.L51:
+.L40:
 	.align	2
-.L50:
+.L39:
 	.word	bullets
 	.size	initBullets, .-initBullets
 	.align	2
@@ -320,24 +264,24 @@ fireBullet:
 	@ Function supports interworking.
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 0, uses_anonymous_args = 0
-	ldr	r0, .L63
+	ldr	r0, .L52
 	mov	r2, r0
 	ldr	r1, [r2, #28]
 	cmp	r1, #0
 	mov	r3, #0
-	beq	.L62
-.L53:
+	beq	.L51
+.L42:
 	add	r3, r3, #1
 	cmp	r3, #5
 	add	r2, r2, #32
 	bxeq	lr
 	ldr	r1, [r2, #28]
 	cmp	r1, #0
-	bne	.L53
-.L62:
+	bne	.L42
+.L51:
 	push	{r4, lr}
 	mov	r4, #1
-	ldr	ip, .L63+4
+	ldr	ip, .L52+4
 	ldr	lr, [ip, #16]
 	ldr	r2, [ip, #4]
 	add	r1, r0, r3, lsl #5
@@ -354,9 +298,9 @@ fireBullet:
 	str	ip, [r0, r3, lsl #5]
 	pop	{r4, lr}
 	bx	lr
-.L64:
+.L53:
 	.align	2
-.L63:
+.L52:
 	.word	bullets
 	.word	player
 	.size	fireBullet, .-fireBullet
@@ -370,68 +314,68 @@ updatePlayer:
 	@ Function supports interworking.
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 0, uses_anonymous_args = 0
-	ldr	r3, .L79
+	ldr	r3, .L68
 	ldrh	r3, [r3, #48]
 	tst	r3, #32
 	push	{r4, lr}
-	ldr	r4, .L79+4
-	bne	.L66
+	ldr	r4, .L68+4
+	bne	.L55
 	ldr	r3, [r4, #4]
 	ldr	r2, [r4, #8]
 	cmp	r3, r2
-	blt	.L66
+	blt	.L55
 	mvn	r1, #0
 	sub	r3, r3, r2
 	str	r3, [r4, #4]
 	str	r1, [r4, #28]
-	b	.L67
-.L66:
-	ldr	r3, .L79
+	b	.L56
+.L55:
+	ldr	r3, .L68
 	ldrh	r3, [r3, #48]
 	tst	r3, #16
-	beq	.L78
-.L68:
+	beq	.L67
+.L57:
 	mov	r3, #0
 	str	r3, [r4, #28]
-.L67:
-	ldr	r3, .L79+8
+.L56:
+	ldr	r3, .L68+8
 	ldrh	r3, [r3]
 	tst	r3, #1
 	ldr	r3, [r4, #24]
-	beq	.L77
-	ldr	r2, .L79+12
+	beq	.L66
+	ldr	r2, .L68+12
 	ldrh	r2, [r2]
 	tst	r2, #1
-	bne	.L77
+	bne	.L66
 	cmp	r3, #12
-	bgt	.L72
-.L77:
+	bgt	.L61
+.L66:
 	add	r3, r3, #1
 	str	r3, [r4, #24]
 	pop	{r4, lr}
 	bx	lr
-.L78:
+.L67:
 	ldr	r2, [r4, #4]
 	ldr	r3, [r4, #16]
 	ldr	r1, [r4, #8]
 	add	r3, r2, r3
 	rsb	r0, r1, #240
 	cmp	r3, r0
-	bgt	.L68
+	bgt	.L57
 	mov	r3, #1
 	add	r2, r2, r1
 	str	r2, [r4, #4]
 	str	r3, [r4, #28]
-	b	.L67
-.L72:
+	b	.L56
+.L61:
 	bl	fireBullet
 	mov	r3, #1
 	str	r3, [r4, #24]
 	pop	{r4, lr}
 	bx	lr
-.L80:
+.L69:
 	.align	2
-.L79:
+.L68:
 	.word	67109120
 	.word	player
 	.word	oldButtons
@@ -449,39 +393,39 @@ updateGame:
 	@ frame_needed = 0, uses_anonymous_args = 0
 	push	{r4, r5, r6, lr}
 	bl	updatePlayer
-	ldr	r4, .L97
+	ldr	r4, .L86
 	add	r5, r4, #160
-.L83:
+.L72:
 	ldr	r3, [r4, #28]
 	cmp	r3, #0
-	bne	.L95
-.L82:
+	bne	.L84
+.L71:
 	add	r4, r4, #32
 	cmp	r4, r5
-	bne	.L83
-	ldr	r4, .L97+4
+	bne	.L72
+	ldr	r4, .L86+4
 	add	r5, r4, #160
-.L85:
+.L74:
 	ldr	r3, [r4, #28]
 	cmp	r3, #0
-	bne	.L96
-.L84:
+	bne	.L85
+.L73:
 	add	r4, r4, #32
 	cmp	r5, r4
-	bne	.L85
+	bne	.L74
 	pop	{r4, r5, r6, lr}
 	bx	lr
-.L96:
+.L85:
 	mov	r0, r4
 	bl	updateBall.part.2
-	b	.L84
-.L95:
+	b	.L73
+.L84:
 	mov	r0, r4
 	bl	updateBullet.part.0
-	b	.L82
-.L98:
+	b	.L71
+.L87:
 	.align	2
-.L97:
+.L86:
 	.word	bullets
 	.word	balls
 	.size	updateGame, .-updateGame
@@ -521,7 +465,7 @@ drawBullet:
 	add	r2, r0, #16
 	ldm	r2, {r2, r3}
 	ldm	r0, {r0, r1}
-	ldr	r4, .L110
+	ldr	r4, .L99
 	str	ip, [sp]
 	mov	lr, pc
 	bx	r4
@@ -529,9 +473,9 @@ drawBullet:
 	@ sp needed
 	pop	{r4, lr}
 	bx	lr
-.L111:
+.L100:
 	.align	2
-.L110:
+.L99:
 	.word	drawRect4
 	.size	drawBullet, .-drawBullet
 	.align	2
@@ -547,11 +491,11 @@ initBalls:
 	push	{r3, r4, r5, r6, r7, r8, r9, r10, fp, lr}
 	mov	r8, #0
 	mov	r9, #12
-	ldr	r4, .L116
-	ldr	r5, .L116+4
-	ldr	r7, .L116+8
-	ldr	r6, .L116+12
-.L113:
+	ldr	r4, .L105
+	ldr	r5, .L105+4
+	ldr	r7, .L105+8
+	ldr	r6, .L105+12
+.L102:
 	str	r9, [r4, #16]
 	str	r9, [r4, #20]
 	mov	lr, pc
@@ -581,12 +525,12 @@ initBalls:
 	str	ip, [r4, #28]
 	str	r3, [r4, #24]
 	add	r4, r4, #32
-	bne	.L113
+	bne	.L102
 	pop	{r3, r4, r5, r6, r7, r8, r9, r10, fp, lr}
 	bx	lr
-.L117:
+.L106:
 	.align	2
-.L116:
+.L105:
 	.word	balls
 	.word	rand
 	.word	156180629
@@ -613,7 +557,7 @@ initGame:
 	mov	r1, #20
 	mov	r5, r4
 	mvn	r2, #1
-	ldr	r3, .L122
+	ldr	r3, .L111
 	str	r8, [r3]
 	str	r7, [r3, #4]
 	str	r6, [r3, #8]
@@ -621,8 +565,8 @@ initGame:
 	str	ip, [r3, #16]
 	strb	r0, [r3, #20]
 	str	r1, [r3, #24]
-	ldr	r3, .L122+4
-.L119:
+	ldr	r3, .L111+4
+.L108:
 	add	r4, r4, #1
 	rsb	r1, r4, #0
 	cmp	r4, #5
@@ -635,16 +579,23 @@ initGame:
 	str	r5, [r3, #28]
 	str	r1, [r3]
 	add	r3, r3, #32
-	bne	.L119
+	bne	.L108
 	bl	initBalls
+	ldr	ip, .L111+8
+	mov	r3, #256
+	str	r4, [ip]
+	mov	r2, #83886080
+	ldr	r1, .L111+12
+	mov	r0, #3
+	ldr	r4, .L111+16
+	mov	lr, pc
+	bx	r4
 	mov	lr, #31744
 	mov	ip, #992
 	mov	r0, #31
 	mvn	r1, #32768
-	ldr	r3, .L122+8
-	ldr	r2, .L122+12
-	str	r4, [r3]
-	ldr	r3, .L122+16
+	ldr	r3, .L111+20
+	ldr	r2, .L111+24
 	strh	lr, [r3, #246]	@ movhi
 	strh	r5, [r3, #244]	@ movhi
 	strh	ip, [r3, #248]	@ movhi
@@ -653,14 +604,16 @@ initGame:
 	strh	r2, [r3, #254]	@ movhi
 	pop	{r4, r5, r6, r7, r8, lr}
 	bx	lr
-.L123:
+.L112:
 	.align	2
-.L122:
+.L111:
 	.word	player
 	.word	bullets
 	.word	ballsRemaining
-	.word	15855
+	.word	pumpkinPal
+	.word	DMANow
 	.word	83886336
+	.word	15855
 	.size	initGame, .-initGame
 	.align	2
 	.global	updateBall
@@ -688,9 +641,114 @@ drawBall:
 	@ Function supports interworking.
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 0, uses_anonymous_args = 0
-	@ link register save eliminated.
+	ldr	r3, [r0, #28]
+	cmp	r3, #0
+	bxeq	lr
+	mov	r3, r0
+	push	{r4, lr}
+	ldr	r2, [r0, #24]
+	cmp	r2, #0
+	add	r2, r3, #16
+	sub	sp, sp, #8
+	ldm	r0, {r0, r1}
+	ldm	r2, {r2, r3}
+	bne	.L125
+	mov	ip, #251
+	ldr	r4, .L126
+	str	ip, [sp]
+	mov	lr, pc
+	bx	r4
+	add	sp, sp, #8
+	@ sp needed
+	pop	{r4, lr}
 	bx	lr
+.L125:
+	ldr	ip, .L126+4
+	ldr	r4, .L126+8
+	str	ip, [sp]
+	mov	lr, pc
+	bx	r4
+	add	sp, sp, #8
+	@ sp needed
+	pop	{r4, lr}
+	bx	lr
+.L127:
+	.align	2
+.L126:
+	.word	drawRect4
+	.word	pumpkinBitmap
+	.word	drawImage4
 	.size	drawBall, .-drawBall
+	.align	2
+	.global	drawGame
+	.syntax unified
+	.arm
+	.fpu softvfp
+	.type	drawGame, %function
+drawGame:
+	@ Function supports interworking.
+	@ args = 0, pretend = 0, frame = 0
+	@ frame_needed = 0, uses_anonymous_args = 0
+	push	{r4, r5, r6, lr}
+	mov	r0, #250
+	sub	sp, sp, #8
+	ldr	r3, .L137
+	mov	lr, pc
+	bx	r3
+	bl	drawPlayer
+	mov	r2, #253
+	mov	r3, #240
+	str	r2, [sp]
+	mov	r1, #0
+	mov	r2, #3
+	mov	r0, #120
+	ldr	r6, .L137+4
+	mov	lr, pc
+	bx	r6
+	ldr	r4, .L137+8
+	add	r5, r4, #160
+.L130:
+	ldr	r3, [r4, #28]
+	cmp	r3, #0
+	bne	.L136
+.L129:
+	add	r4, r4, #32
+	cmp	r4, r5
+	bne	.L130
+	ldr	r0, .L137+12
+	bl	drawBall
+	ldr	r0, .L137+16
+	bl	drawBall
+	ldr	r0, .L137+20
+	bl	drawBall
+	ldr	r0, .L137+24
+	bl	drawBall
+	ldr	r0, .L137+28
+	add	sp, sp, #8
+	@ sp needed
+	pop	{r4, r5, r6, lr}
+	b	drawBall
+.L136:
+	ldrb	ip, [r4, #24]	@ zero_extendqisi2
+	add	r2, r4, #16
+	ldm	r2, {r2, r3}
+	ldm	r4, {r0, r1}
+	str	ip, [sp]
+	mov	lr, pc
+	bx	r6
+	b	.L129
+.L138:
+	.align	2
+.L137:
+	.word	fillScreen4
+	.word	drawRect4
+	.word	bullets
+	.word	balls
+	.word	balls+32
+	.word	balls+64
+	.word	balls+96
+	.word	balls+128
+	.size	drawGame, .-drawGame
 	.comm	ballsRemaining,4,4
 	.comm	balls,160,4
 	.comm	bullets,160,4

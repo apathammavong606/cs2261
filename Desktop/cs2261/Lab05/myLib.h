@@ -44,11 +44,11 @@ extern unsigned short *videoBuffer;
 #define YELLOW COLOR(31,31,0)
 
 // Mode 3 Drawing Functions
-void setPixel3(int row, int col, unsigned short color);
-void drawRect3(int row, int col, int height, int width, volatile unsigned short color);
-void fillScreen3(volatile unsigned short color);
-void drawImage3(int row, int col, int height, int width, const unsigned short *image);
-void drawFullscreenImage3(const unsigned short *image);
+// void setPixel3(int row, int col, unsigned short color);
+// void drawRect3(int row, int col, int height, int width, volatile unsigned short color);
+// void fillScreen3(volatile unsigned short color);
+// void drawImage3(int row, int col, int height, int width, const unsigned short *image);
+// void drawFullscreenImage3(const unsigned short *image);
 
 // Mode 4 Drawing Functions
 void setPixel4(int row, int col, unsigned char colorIndex);

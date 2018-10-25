@@ -1314,6 +1314,13 @@ void initBalls();
 void updateBall(BALL *);
 void drawBall(BALL *);
 # 6 "main.c" 2
+# 1 "Joshy.h" 1
+# 21 "Joshy.h"
+extern const unsigned short JoshyBitmap[19200];
+
+
+extern const unsigned short JoshyPal[256];
+# 7 "main.c" 2
 
 
 
@@ -1390,7 +1397,18 @@ void initialize() {
 
 
 void goToStart() {
-# 92 "main.c"
+
+
+    DMANow(3, JoshyPal, ((unsigned short *)0x5000000), 256);
+
+
+    drawFullscreenImage4(JoshyBitmap);
+
+
+    waitForVBlank();
+    flipPage();
+
+
     state = START;
 
 
@@ -1451,6 +1469,8 @@ void goToPause() {
     drawString4(80-3, 120-15, "Pause", BLACKID);
 
 
+    waitForVBlank();
+    flipPage();
 
 
 
@@ -1477,7 +1497,8 @@ void goToWin() {
     drawString4(80-3, 120-9, "Win", BLACKID);
 
 
-
+    waitForVBlank();
+    flipPage();
 
 
     state = WIN;
@@ -1501,7 +1522,8 @@ void goToLose() {
     drawString4(80-3, 120-12, "Lose", BLACKID);
 
 
-
+    waitForVBlank();
+    flipPage();
 
 
     state = LOSE;

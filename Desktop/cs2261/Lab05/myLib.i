@@ -10,14 +10,7 @@
 typedef unsigned short u16;
 # 27 "myLib.h"
 extern unsigned short *videoBuffer;
-# 47 "myLib.h"
-void setPixel3(int row, int col, unsigned short color);
-void drawRect3(int row, int col, int height, int width, volatile unsigned short color);
-void fillScreen3(volatile unsigned short color);
-void drawImage3(int row, int col, int height, int width, const unsigned short *image);
-void drawFullscreenImage3(const unsigned short *image);
-
-
+# 54 "myLib.h"
 void setPixel4(int row, int col, unsigned char colorIndex);
 void drawRect4(int row, int col, int height, int width, volatile unsigned char colorIndex);
 void fillScreen4(volatile unsigned char colorIndex);
@@ -53,83 +46,91 @@ unsigned short *videoBuffer = (unsigned short *)0x6000000;
 
 
 DMA *dma = (DMA *)0x40000B0;
-
-
-void setPixel3(int row, int col, unsigned short color) {
-
- videoBuffer[((row)*(240)+(col))] = color;
-}
-
-
+# 16 "myLib.c"
 void setPixel4(int row, int col, unsigned char colorIndex) {
 
 
-    unsigned short pixelData = videoBuffer[((row)*((240/2))+(col))];
+    unsigned short pixelData = videoBuffer[((row)*(240)+(col))/2];
     if (col & 1) {
         pixelData &= 0x00FF;
-        pixelData += (colorIndex << 8);
+        pixelData |= (colorIndex << 8);
     } else {
         pixelData &= 0xFF00;
-        pixelData += colorIndex;
+        pixelData |= colorIndex;
     }
 
-    videoBuffer[((row)*((240/2))+(col))] = pixelData;
+    videoBuffer[((row)*(240)+(col))/2] = pixelData;
 
 }
-
-
-void drawRect3(int row, int col, int height, int width, volatile unsigned short color) {
-
- for(int r = 0; r < height; r++) {
-        DMANow(3, &color, &videoBuffer[((row+r)*(240)+(col))], (2 << 23) | width);
- }
-}
-
-
+# 41 "myLib.c"
 void drawRect4(int row, int col, int height, int width, volatile unsigned char colorIndex) {
-# 58 "myLib.c"
+
+
+    volatile unsigned int color = colorIndex << 24 | colorIndex << 16 | colorIndex << 8 | colorIndex;
+
+    if (width == 1) {
+        setPixel4(row, col, colorIndex);
+    }
+
+    else if (width == 2) {
+        setPixel4(row, col, colorIndex);
+        setPixel4(row, col + 1, colorIndex);
+    }
+
+    else if ((col & 1) && (width & 1)) {
+        for (int r = 0; r < height; r++) {
+            setPixel4(row + r, col, colorIndex);
+            DMANow(3, &color, &videoBuffer[((row+r)*(240)+(col + 1))/2], (2 << 23) | width/2);
+        }
+    }
+
+    else if (col & 1) {
+        for (int r = 0; r < height; r++) {
+            setPixel4(row + r, col, colorIndex);
+            DMANow(3, &color, &videoBuffer[((row+r)*(240)+(col + 1))/2], (2 << 23) | width/2);
+            setPixel4(row + r, col + (width - 1), colorIndex);
+        }
+    }
+
+    else if (width & 1) {
+        for (int r = 0; r < height; r++) {
+            DMANow(3, &color, &videoBuffer[((row+r)*(240)+(col))/2], (2 << 23) | width/2);
+            setPixel4(row + r, col + (width - 1), colorIndex);
+        }
+    }
+
+
+    else {
+        for (int r = 0; r < height; r++) {
+            DMANow(3, &color, &videoBuffer[((row+r)*(240)+(col))/2], (2 << 23) | width/2);
+        }
+    }
+
 }
-
-
-void fillScreen3(volatile unsigned short color) {
-
- DMANow(3, &color, videoBuffer, (2 << 23) | (240 * 160));
-}
-
-
+# 93 "myLib.c"
 void fillScreen4(volatile unsigned char colorIndex) {
 
 
+    volatile unsigned int color = colorIndex << 24 | colorIndex << 16
+        | colorIndex << 8 | colorIndex;
+    DMANow(3, &color, videoBuffer, (2 << 23) | (240 * 160)/2);
 
 
 }
-
-
-void drawImage3(int row, int col, int height, int width, const unsigned short *image) {
-
-    for(int r = 0; r < height; r++) {
-        DMANow(3, &image[((r)*(width)+(0))], &videoBuffer[((row+r)*(240)+(col))], width);
-    }
-}
-
-
+# 112 "myLib.c"
 void drawImage4(int row, int col, int height, int width, const unsigned short *image) {
 
 
-
+    for (int r = 0; r < height; r++) {
+        DMANow(3, &image[((r)*(width)+(0))/2], &videoBuffer[((row + r)*(240)+(col))/2], width/2);
+    }
 
 }
-
-
-void drawFullscreenImage3(const unsigned short *image) {
-
-    DMANow(3, image, videoBuffer, 240 * 160);
-}
-
-
+# 128 "myLib.c"
 void drawFullscreenImage4(const unsigned short *image) {
 
 
+    DMANow(3, image, videoBuffer, (240 * 160)/2);
 
 }
 
