@@ -960,7 +960,7 @@ void initApples() {
 
   apples[i].height = 10;
   apples[i].width = 10;
-  apples[i].row = rand() % 110;
+  apples[i].row = rand() % 240;
   apples[i].col = rand() % 130 + 10;
   apples[i].oldRow = apples[i].row;
   apples[i].oldCol = apples[i].col;

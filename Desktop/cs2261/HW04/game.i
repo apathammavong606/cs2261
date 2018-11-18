@@ -838,7 +838,7 @@ void DMANow(int channel, volatile const void *src, volatile void *dst, unsigned 
 int collision(int rowA, int colA, int heightA, int widthA, int rowB, int colB, int heightB, int widthB);
 # 3 "game.c" 2
 # 1 "game.h" 1
-typedef struct {
+    typedef struct {
     int row;
     int col;
     int oldRow;

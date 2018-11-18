@@ -1,19 +1,20 @@
 STATUS: Validatating gr.
 WARNING:   No explicit src path.
 STATUS: Validation succeeded.
-STATUS: Started run at: 2018-10-18, 17:25:44
+STATUS: Started run at: 2018-11-14, 21:33:33
 STATUS: Validatating gr.
 STATUS: Validation succeeded.
 STATUS: Preparing data.
 STATUS: Work-DIB creation.
-STATUS: Work-DIB creation complete: 48x48@8.
+STATUS: Work-DIB creation complete: 256x256@8.
 STATUS: Tile preparation.
 STATUS:   tiling to 8x8 tiles.
 STATUS: Tile preparation complete.
 STATUS: Graphics preparation.
+STATUS:   Bitpacking: 8 -> 4.
 STATUS: Graphics preparation complete.
 STATUS: Palette preparation.
 STATUS: Palette preparation complete.
 STATUS: Data preparation complete.
-STATUS: Export to C: lab06 into C:\users\ariannapath\Desktop\cs2261\Lab06\lab06.c .
+STATUS: Export to C: spriteSheet2 into C:\users\ariannapath\Desktop\cs2261\Final Project\M02\spriteSheet2.c .
 STATUS: Run completed :).

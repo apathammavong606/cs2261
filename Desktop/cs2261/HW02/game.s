@@ -266,11 +266,11 @@ initApples:
 	bx	r5
 	smull	fp, ip, r0, r8
 	asr	r2, r0, #31
-	rsb	r3, r2, ip, asr #2
-	rsb	r2, r3, r3, lsl #3
-	rsb	r3, r3, r2, lsl #3
-	sub	r3, r0, r3, lsl #1
-	str	r3, [r4]
+	add	r3, r0, ip
+	rsb	r3, r2, r3, asr #7
+	rsb	r3, r3, r3, lsl #4
+	sub	r0, r0, r3, lsl #4
+	str	r0, [r4]
 	mov	lr, pc
 	bx	r5
 	mov	lr, #31
@@ -301,7 +301,7 @@ initApples:
 .L40:
 	.word	apples
 	.word	rand
-	.word	156180629
+	.word	-2004318071
 	.word	2114445439
 	.size	initApples, .-initApples
 	.align	2
